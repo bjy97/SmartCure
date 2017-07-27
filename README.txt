@@ -1,0 +1,14 @@
+README - SmartCure
+
+Jingya Bi, Shawn Shangzhou Xia
+
+1. PostgreSQL account: sx2182
+2. URL of our app: http://35.190.154.141:8111/
+3. Description: We implemented the entire original design in part 1, where we envisioned the application to make recommendations to users seeking in-patient health services based on their own information. We also implemented a brand new fantastic feature that takes the total cost into consideration when making the recommendations. In this final application, the user is prompted to enter his/her zip code, select from broad categories of diseases, and select a price range that s/he anticipates. The user is also asked to select his/her most concern from doctor specialization, location and estimated costs. After we sort out all doctor-and-hospital tuples satisfying all the conditions, we provide the user with a form with results order by his/her concern.
+4. Examples:
+Zip code = 100, Symptom = 'Digestive System', Expected cost = 0-10000, Most concern = 'Location'.
+Zip code = 120, Symptom = 'Digestive System', Expected cost = 0-10000, Most concern = 'cost'.
+
+The first example shows how we sort the results first according to the distance between the hospital and the user, and then according to the average cost by previous patients staying in that hospital. The second on is implemented by order of average cost.
+
+
