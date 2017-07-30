@@ -32,7 +32,7 @@ def get_geolocation_data(address_string,country='ALL',types=False):
         latitude = one_result['geometry']['location']['lat']
         longitude = one_result['geometry']['location']['lng']
         rcountry = f_address.split(", ")[-1]
-        lat_lng_list=[f_address,latitude,longitude]
+        lat_lng_list=[address_string, f_address,latitude,longitude]
         
         if (types==True):
             lat_lng_list.append(one_result["types"])
@@ -83,6 +83,7 @@ def index():
 
 @app.route('/recommend',methods = ['POST'])
 def recommend():
+    context = dict()
     out = []
     priority = str(request.form.get('get_priority'))
     disease = request.form.get('get_disease')
@@ -122,20 +123,24 @@ def recommend():
                 cost = 'unspecified'
             if zip_code=='invalid':
                 zip_code = 'unspecified'
-            user = 'Your selected symptom ' + str(disease) + " with median cost "+ str(cost) + ' and zip code ' + str(zip_code)
+            context['user'] = 'Your selected symptom ' + str(disease) + " with median cost "+ str(cost) + ' and zip code ' + str(zip_code)
 
             if len(df)!=0:
-                rec = 'Here are our recommendations:'
+                context['rec'] = 'Here are our recommendations:'
             else:
-                rec = 'Sorry! Our database is too small to give you any helpful recommendations.'
+                context['rec'] = 'Sorry! Our database is too small to give you any helpful recommendations.'
 
 
 
             qry.close()
-            lat = 40.7589
-            lon = -73.9851
+            context['lat'] = 40.7589
+            context['lon'] = -73.9851
+            context['table'] = df.to_html()
+            context['results_list'] = locations
+            
 
-            return render_template("index.html", user = user, rec = rec, table = df.to_html(), results_list = locations, lat= lat, lon = lon)
+
+            return render_template("index.html", **context)
         
     elif priority =='zipcode':
         
@@ -170,19 +175,20 @@ def recommend():
             df = pd.DataFrame(list(zip(use1,use2,use3,use4)),columns=['doctor','specialization','hospital name','average cost'])
             df.index = np.arange(1, len(df) + 1)  
 
-            user = 'Your selected symptom ' + str(disease) + " with median cost "+ str(cost) + ' and zip code ' + str(zip_code)
+            context['user'] = 'Your selected symptom ' + str(disease) + " with median cost "+ str(cost) + ' and zip code ' + str(zip_code)
 
-
-            lat = 40.7589
-            lon = -73.9851
 
 
             if len(df)!=0:
-                rec = 'Here are our recommendations:'
+                context['rec'] = 'Here are our recommendations:'
             else:
-                rec = 'Sorry! Our database is too small to give you any helpful recommendation.'           
+                context['rec'] = 'Sorry! Our database is too small to give you any helpful recommendation.'           
             qry.close()
-            return render_template("index.html", user = user, rec = rec, table = df.to_html(),results_list = locations, lat= lat, lon = lon)
+            context['lat'] = 40.7589
+            context['lon'] = -73.9851
+            context['table'] = df.to_html()
+            context['results_list'] = locations
+            return render_template("index.html", **context)
        
 
     else:
@@ -213,20 +219,21 @@ def recommend():
                 disease = 'unspecified'
             if zip_code=='invalid':
                 zip_code = 'unspecified'
-            user = 'Your selected symptom ' + str(disease) + " with median cost "+ str(cost) + ' and zip code ' + str(zip_code)
+            context['user'] = 'Your selected symptom ' + str(disease) + " with median cost "+ str(cost) + ' and zip code ' + str(zip_code)
 
             if len(df)!=0:
-                rec = 'Here are our recommendations:'
+                context['rec'] = 'Here are our recommendations:'
             else:
-                rec = 'Sorry! Our database is too small to give you any responsible recommendation.'
+                context['rec'] = 'Sorry! Our database is too small to give you any responsible recommendation.'
 
             qry.close()
+            context['lat'] = 40.7589
+            context['lon'] = -73.9851
+            context['table'] = df.to_html()
+            context['results_list'] = locations
 
 
-            lat = 40.7589
-            lon = -73.9851
-
-            return render_template("index.html", user = user, rec = rec, table = df.to_html(),results_list = locations, lat= lat, lon = lon)
+            return render_template("index.html", **context)
 
 
 
