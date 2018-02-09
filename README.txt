@@ -3,7 +3,7 @@ README - SmartCure
 Jingya Bi, Shawn Shangzhou Xia
 
 1. PostgreSQL account: sx2182
-2. URL of our app: http://35.190.154.141:8111/ (This one does not work now)
+2. URL of our app: http://35.190.154.141:8111/ (Not in use now)
 3. Description: SmartCure is an application that aims at making wise recommendations to patients in search of economical in-patient health service providers nearby based on a large-scale database with previous diagnoses and treatment information. 
 We implemented the entire original design in part 1, where we envisioned the application to make recommendations to users seeking in-patient health services based on their own information. We also implemented a brand new feature that takes the total cost into consideration when making the recommendations. In this final application, the user is prompted to enter his/her zip code, select from broad categories of diseases, and select a price range that s/he anticipates. The user is also asked to select his/her most concern from doctor specialization, location and estimated costs. After we sort out all doctor-and-hospital tuples satisfying all the conditions, we provide the user with a form with results order by his/her concern.
 
